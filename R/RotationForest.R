@@ -27,7 +27,7 @@
 #' data.test <- total[groups %in% 1,]
 #' fit <- RotationForest(data.train[,-1], data.train[,1], 2, 10)
 #'
-RotationForest <- function(xdf, ydf, npredictor, ntree, verbose = F, ...) {
+RotationForest <- function(xdf, ydf, npredictor, ntree = 10, verbose = F, ...) {
   RotationForestObject <- list()
   class(RotationForestObject) <- "RotationForest"
   fits <- list()
