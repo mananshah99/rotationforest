@@ -1,4 +1,4 @@
-Package: RotationForest
+Package: rotationForest
 Type: Package
 Title: An implementation of the "Rotation Forest" algorithm from Rodriguez et al. 2006 in R
 Version: 1.0

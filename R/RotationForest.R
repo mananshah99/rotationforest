@@ -1,4 +1,4 @@
-#' Defines the constructor for the RotationForest module
+#' Defines the constructor for the rotationForest module
 #'
 #' Requires the dependent and response values (data frames), the number 
 #' of predictor variables to use in each rotation, the number of trees to 
@@ -12,12 +12,12 @@
 #' @param verbose a logical, set true for classification output to be printed
 #' @param ... extra variables to be passed on to the rpart function
 #' 
-#' @return an object of class RotationForest
+#' @return an object of class rotationForest
 #' @export
 #' 
 #' @examples
 #' 
-#' fpath <- system.file("extdata", "balance-scale.data", package="RotationForest")
+#' fpath <- system.file("extdata", "balance-scale.data", package="rotationForest")
 #' data <- read.table(fpath, sep = ",", header = FALSE)
 #' data.dependent <- data[,-1]
 #' data.response <- data[,1]
@@ -26,11 +26,11 @@
 #' groups <- sample(rep(1:10, times = ceiling(nrow(total) / 19)), size = nrow(total), replace = TRUE)
 #' data.train <- total[!groups %in% 1,]
 #' data.test <- total[groups %in% 1,]
-#' fit <- RotationForest(data.train[,-1], data.train[,1], 2, 10)
+#' fit <- rotationForest(data.train[,-1], data.train[,1], 2, 10)
 #'
-RotationForest <- function(xdf, ydf, npredictor, ntree = 10, verbose = F, ...) {
-  RotationForestObject <- list()
-  class(RotationForestObject) <- "RotationForest"
+rotationForest <- function(xdf, ydf, npredictor, ntree = 10, verbose = F, ...) {
+  rotationForestObject <- list()
+  class(rotationForestObject) <- "rotationForest"
   fits <- list()
   rots <- list()
   
@@ -43,19 +43,19 @@ RotationForest <- function(xdf, ydf, npredictor, ntree = 10, verbose = F, ...) {
     }
   }
   
-  RotationForestObject$models <- fits
-  RotationForestObject$rotations <- rots
+  rotationForestObject$models <- fits
+  rotationForestObject$rotations <- rots
   
-  return(RotationForestObject)
+  return(rotationForestObject)
 }
 
-#' Provides a predict function for an object of class RotationForest
+#' Provides a predict function for an object of class rotationForest
 #' 
-#' Predict allows for O(N) prediction based on an object of class RotationForest 
+#' Predict allows for O(N) prediction based on an object of class rotationForest 
 #' where N is the length of the dataframe dependent array. 
 #'
-#' @param RotationForestObject an object of class RotationForest 
-#' (returned from the constructor RotationForest(...))
+#' @param rotationForestObject an object of class rotationForest 
+#' (returned from the constructor rotationForest(...))
 #' @param dependent a data frame of the X predictor values
 #' @param prob A logical indicating whether probabilities of existing in each class are returned
 #' (as opposed to the default predictions)
@@ -65,7 +65,7 @@ RotationForest <- function(xdf, ydf, npredictor, ntree = 10, verbose = F, ...) {
 #' 
 #' @examples
 #' 
-#' fpath <- system.file("extdata", "balance-scale.data", package="RotationForest")
+#' fpath <- system.file("extdata", "balance-scale.data", package="rotationForest")
 #' data <- read.table(fpath, sep = ",", header = FALSE)
 #' data.dependent <- data[,-1]
 #' data.response <- data[,1]
@@ -74,17 +74,17 @@ RotationForest <- function(xdf, ydf, npredictor, ntree = 10, verbose = F, ...) {
 #' groups <- sample(rep(1:10, times = ceiling(nrow(total) / 19)), size = nrow(total), replace = TRUE)
 #' data.train <- total[!groups %in% 1,]
 #' data.test <- total[groups %in% 1,]
-#' fit <- RotationForest(data.train[,-1], data.train[,1], 2, 10)
+#' fit <- rotationForest(data.train[,-1], data.train[,1], 2, 10)
 #' predict <- predict(fit, data.dependent, prob = FALSE)
 #'
-predict.RotationForest <- function(RotationForestObject, dependent, prob = FALSE) {
+predict.rotationForest <- function(rotationForestObject, dependent, prob = FALSE) {
   # Create and store predictions in a list
   prediction.probabilities <- list()
   
-  for (i in 1:length(RotationForestObject[[1]])) {
-    model.current <- RotationForestObject[[1]][[i]]
+  for (i in 1:length(rotationForestObject[[1]])) {
+    model.current <- rotationForestObject[[1]][[i]]
     
-    data.current <- as.matrix(dependent) %*% RotationForestObject[[2]][[i]]
+    data.current <- as.matrix(dependent) %*% rotationForestObject[[2]][[i]]
     data.current <- as.data.frame(data.current)
     
     colnames(data.current) <- paste0("X", 1:ncol(data.current))
@@ -160,7 +160,7 @@ BuildModel <- function(dependent, response, npredictor, frac = 0.75,...) {
   
   # Rotate onto matrix
   dependent.rotate <- as.matrix(dependent) %*% R.order
-  Df.rotate.full <- data.frame(response,dependent.rotate)
+  Df.rotate.full <- data.frame(response, dependent.rotate)
   colnames(Df.rotate.full)[1] <- "class"
   
   fit <- rpart::rpart(class ~ ., data = Df.rotate.full,...)
