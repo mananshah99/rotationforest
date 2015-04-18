@@ -24,7 +24,8 @@ Predict allows for O(N) prediction based on an object of class RotationForest
 where N is the length of the dataframe dependent array.
 }
 \examples{
-data <- read.table("C:/Users/Manan/Desktop/RotationForest/inst/extdata/balance-scale.data", sep = ",", header = FALSE)
+fpath <- system.file("extdata", "balance-scale.data", package="RotationForest")
+data <- read.table(fpath, sep = ",", header = FALSE)
 data.dependent <- data[,-1]
 data.response <- data[,1]
 data.response <- as.factor(data.response)

@@ -1,6 +1,5 @@
 \name{RotationForest-package}
 \alias{RotationForest-package}
-\alias{RotationForest}
 \docType{package}
 \title{
 An implementation of "Rotation Forest" decision trees in R

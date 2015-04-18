@@ -4,7 +4,7 @@
 \alias{RotationForest}
 \title{Defines the constructor for the RotationForest module}
 \usage{
-RotationForest(xdf, ydf, npredictor, ntree, verbose = F, ...)
+RotationForest(xdf, ydf, npredictor, ntree = 10, verbose = F, ...)
 }
 \arguments{
 \item{xdf}{a data frame of X dependent vectors}
@@ -28,7 +28,8 @@ of predictor variables to use in each rotation, the number of trees to
 train, and a logical for determining if progress should be printed
 }
 \examples{
-data <- read.table("C:/Users/Manan/Desktop/RotationForest/inst/extdata/balance-scale.data", sep = ",", header = FALSE)
+fpath <- system.file("extdata", "balance-scale.data", package="RotationForest")
+data <- read.table(fpath, sep = ",", header = FALSE)
 data.dependent <- data[,-1]
 data.response <- data[,1]
 data.response <- as.factor(data.response)

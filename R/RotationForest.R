@@ -17,7 +17,8 @@
 #' 
 #' @examples
 #' 
-#' data <- read.table("C:/Users/Manan/Desktop/RotationForest/inst/extdata/balance-scale.data", sep = ",", header = FALSE)
+#' fpath <- system.file("extdata", "balance-scale.data", package="RotationForest")
+#' data <- read.table(fpath, sep = ",", header = FALSE)
 #' data.dependent <- data[,-1]
 #' data.response <- data[,1]
 #' data.response <- as.factor(data.response)
@@ -64,7 +65,8 @@ RotationForest <- function(xdf, ydf, npredictor, ntree = 10, verbose = F, ...) {
 #' 
 #' @examples
 #' 
-#' data <- read.table("C:/Users/Manan/Desktop/RotationForest/inst/extdata/balance-scale.data", sep = ",", header = FALSE)
+#' fpath <- system.file("extdata", "balance-scale.data", package="RotationForest")
+#' data <- read.table(fpath, sep = ",", header = FALSE)
 #' data.dependent <- data[,-1]
 #' data.response <- data[,1]
 #' data.response <- as.factor(data.response)
@@ -137,8 +139,8 @@ BuildModel <- function(dependent, response, npredictor, frac = 0.75,...) {
   colnames(Order) <- c("V1","V2")
   for (i in 1:npredictor) {
     
-    rows.use <- sample(1:nrow(dependent),size = round(frac * nrow(dependent)),replace = F)
-    cols.use <- subset(Order,V2 == i)$V1
+    rows.use <- sample(1:nrow(dependent),size = round(frac * nrow(dependent)), replace = F)
+    cols.use <- subset(Order, V2 == i)$V1
     
     start <- (i - 1) * M + 1
     if (i != npredictor) {
